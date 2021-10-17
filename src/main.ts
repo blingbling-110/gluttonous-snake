@@ -1,1 +1,1 @@
-console.log('TS practice')
+document.body.insertAdjacentText('afterbegin', 'TS practice')
