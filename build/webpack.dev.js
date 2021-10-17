@@ -21,8 +21,10 @@ module.exports = merge(commonCfg, {
                     {
                         loader: 'postcss-loader',
                         options: {
-                            plugins: ['postcss-preset-env'],
-                            sourceMap: true
+                            postcssOptions: {
+                                plugins: ['postcss-preset-env'],
+                                sourceMap: true
+                            }
                         }
                     },
                     {

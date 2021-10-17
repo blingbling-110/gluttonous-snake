@@ -1,1 +1,1 @@
-document.body.insertAdjacentText('afterbegin', 'TS practice')
+import './main.scss'

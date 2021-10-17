@@ -1,0 +1,75 @@
+$bg-color: lightpink;
+$color: dimgrey;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  background-color: black;
+  font: bold 20px 'Courier';
+}
+
+#main {
+  width: 360px;
+  height: 420px;
+  background-color: $bg-color;
+  color: $color;
+  margin: 0 auto;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  border: solid 10px $color;
+  border-radius: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  #stage {
+    width: 304px;
+    height: 304px;
+    border: solid 2px $color;
+    position: relative;
+  }
+
+  #panel {
+    width: 304px;
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+#snake {
+  & > div {
+    width: 10px;
+    height: 10px;
+    background-color: $color;
+    border: solid 1px $bg-color;
+    position: absolute;
+  }
+}
+
+#food {
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  // TODO tmp
+  top: 30px;
+  left: 30px;
+  // END tmp
+  display: flex;
+  flex-flow: wrap;
+
+  & > div {
+    width: 4px;
+    height: 4px;
+    background-color: $color;
+    transform: rotate(45deg);
+  }
+}

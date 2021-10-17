@@ -14,7 +14,9 @@ module.exports = merge(commonCfg, {
                     {
                         loader: 'postcss-loader',
                         options: {
-                            plugins: ['postcss-preset-env']
+                            postcssOptions: {
+                                plugins: ['postcss-preset-env']
+                            }
                         }
                     },
                     'sass-loader'
