@@ -3,6 +3,7 @@ export default class Food {
 
   constructor () {
     this.element = document.getElementById('food')!
+    this.change()
   }
 
   get x () {

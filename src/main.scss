@@ -36,14 +36,3 @@ body {
     position: relative;
   }
 }
-
-#snake {
-  & > div {
-    width: 10px;
-    height: 10px;
-    background-color: $color;
-    border: solid 1px $bg-color;
-    position: absolute;
-  }
-}
-

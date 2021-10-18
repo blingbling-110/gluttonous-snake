@@ -6,6 +6,8 @@
   position: absolute;
   display: flex;
   flex-flow: wrap;
+  justify-content: center;
+  align-items: center;
 
   & > div {
     width: 4px;
