@@ -1,0 +1,16 @@
+@import "src/common";
+
+#food {
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  display: flex;
+  flex-flow: wrap;
+
+  & > div {
+    width: 4px;
+    height: 4px;
+    background-color: $color;
+    transform: rotate(45deg);
+  }
+}

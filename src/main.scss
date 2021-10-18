@@ -1,5 +1,4 @@
-$bg-color: lightpink;
-$color: dimgrey;
+@import "common";
 
 * {
   margin: 0;
@@ -36,13 +35,6 @@ body {
     border: solid 2px $color;
     position: relative;
   }
-
-  #panel {
-    width: 304px;
-    margin-top: 30px;
-    display: flex;
-    justify-content: space-between;
-  }
 }
 
 #snake {
@@ -55,17 +47,3 @@ body {
   }
 }
 
-#food {
-  width: 10px;
-  height: 10px;
-  position: absolute;
-  display: flex;
-  flex-flow: wrap;
-
-  & > div {
-    width: 4px;
-    height: 4px;
-    background-color: $color;
-    transform: rotate(45deg);
-  }
-}
