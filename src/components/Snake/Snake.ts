@@ -1,13 +1,14 @@
 export default class Snake {
   element: HTMLElement
   head: HTMLElement
-  body: HTMLCollection
+  headAndBody: HTMLCollection
   isLive: boolean = true
+  bodyArr: number[] = []
 
   constructor () {
     this.element = document.getElementById('snake')!
-    this.head = document.querySelector('#snake > div') as HTMLElement
-    this.body = this.element.getElementsByTagName('div')
+    this.head = document.querySelector('#snake > div')!
+    this.headAndBody = this.element.getElementsByTagName('div')
     this.x = Math.round(Math.random() * 29) * 10
     this.y = Math.round(Math.random() * 29) * 10
   }
@@ -17,15 +18,19 @@ export default class Snake {
   }
 
   set x (value: number) {
-    switch (true) {
-      case this.x === value:
-        break
-      case value < 0 || value > 290:
-        this.isLive = false
-        break
-      default:
-        this.head.style.left = value + 'px'
+    if (this.x === value) {
+      return
     }
+    if (this.bodyArr[0] && (this.headAndBody[this.bodyArr[0]] as HTMLElement).offsetLeft === value) {
+      value = value > this.x ? this.x - 10 : this.x + 10
+    }
+    // 判断是否撞墙或撞身体
+    if (value < 0 || value > 290 || this.isOnSnake(value, this.y, false)) {
+      this.isLive = false
+      return
+    }
+    this.moveBody()
+    this.head.style.left = value + 'px'
   }
 
   get y () {
@@ -33,18 +38,58 @@ export default class Snake {
   }
 
   set y (value: number) {
-    switch (true) {
-      case this.y === value:
-        break
-      case value < 0 || value > 290:
-        this.isLive = false
-        break
-      default:
-        this.head.style.top = value + 'px'
+    if (this.y === value) {
+      return
     }
+    if (this.bodyArr[0] && (this.headAndBody[this.bodyArr[0]] as HTMLElement).offsetTop === value) {
+      value = value > this.y ? this.y - 10 : this.y + 10
+    }
+    // 判断是否撞墙或撞身体
+    if (value < 0 || value > 290 || this.isOnSnake(this.x, value, false)) {
+      this.isLive = false
+      return
+    }
+    this.moveBody()
+    this.head.style.top = value + 'px'
   }
 
   addBody () {
     this.element.insertAdjacentHTML('beforeend', '<div></div>')
+    if (this.bodyArr.length < 1) {
+      this.bodyArr.push(1)
+    } else {
+      this.bodyArr.push(this.headAndBody.length - 1)
+    }
+  }
+
+  moveBody () {
+    const length = this.bodyArr.length
+    if (length < 1) {
+      return
+    }
+
+    const moveIndex = this.bodyArr.pop()!
+    this.bodyArr.unshift(moveIndex)
+    const last = this.headAndBody[moveIndex] as HTMLElement
+    last.style.left = this.x + 'px'
+    last.style.top = this.y + 'px'
+  }
+
+  move (x: number, y: number, eaten: boolean = false) {
+    if (eaten) {
+      this.addBody()
+    }
+    this.x = x
+    this.y = y
+  }
+
+  isOnSnake (x: number, y: number, includeHead: boolean = true) {
+    return Array.from(this.headAndBody).some((ele, index) => {
+      if (index === 0 && !includeHead) {
+        return false
+      } else {
+        return (ele as HTMLElement).offsetLeft === x && (ele as HTMLElement).offsetTop === y
+      }
+    })
   }
 }

@@ -17,6 +17,11 @@ yarn build
 
 ### Lints and fixes files
 ```
-yarn lint
+yarn lint:fix
+```
+
+### Deploy GitHub Pages
+```
+.\build\gh-deploy.ps1
 ```
 
