@@ -36,7 +36,8 @@
   "scripts": {
     "serve": "webpack serve --config ./build/webpack.dev.js",
     "build": "webpack --config ./build/webpack.prod.js",
-    "lint": "eslint ./src --ext .ts --fix"
+    "lint": "eslint ./src --ext .ts",
+    "lint:fix": "eslint ./src --ext .ts --fix"
   },
   "husky": {
     "hooks": {
