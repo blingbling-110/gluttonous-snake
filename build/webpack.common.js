@@ -22,11 +22,7 @@ module.exports = {
                 exclude: /node_modules/,
                 use: [
                     {
-                        loader: "babel-loader",
-                        options: {
-                            presets: ['@babel/preset-typescript'],
-                            plugins: ['@babel/plugin-transform-typescript']
-                        }
+                        loader: "babel-loader"
                     },
                     "ts-loader"
                 ]
