@@ -23,11 +23,12 @@ export default class GameCtrl {
   }
 
   init () {
-    document.addEventListener('keydown', this.keydownCb.bind(this))
-    this.draw()
+    document.addEventListener('keydown', this.keyDownCb.bind(this))
+    document.addEventListener('touchstart', this.touchStartCb.bind(this))
+    this.reset()
   }
 
-  keydownCb (event: KeyboardEvent) {
+  keyDownCb (event: KeyboardEvent) {
     DIRECTION.some(tuple => {
       const index = tuple.findIndex(direction => event.key === direction)
       if (index !== -1) {
@@ -37,6 +38,50 @@ export default class GameCtrl {
         return false
       }
     })
+  }
+
+  touchStartCb (event: TouchEvent) {
+    const touch = event.touches[0]
+    const touchX = touch.clientX
+    const touchY = touch.clientY
+    const {
+      x,
+      y
+    } = this.snake.head.getBoundingClientRect()
+    const headX = x + 5
+    const headY = y + 5
+    const iconWrapper = document.querySelector('#main .icon-wrapper')!
+    const touchEle = document.elementFromPoint(touchX, touchY)
+
+    if (iconWrapper.contains(touchEle)) {
+      // 拦截图标上的事件
+      return
+    }
+
+    // 计算斜率来判断该开始向哪个方向移动
+    if (touchX !== headX) {
+      const k = Math.abs((touchY - headY) / (touchX - headX))
+      if (k > 1 && touchY < headY) {
+        // 开始向上移动
+        this.direction = 0
+      } else if (k > 1 && touchY > headY) {
+        // 开始向下移动
+        this.direction = 2
+      } else if (k < 1 && touchX < headX) {
+        // 开始向左移动
+        this.direction = 3
+      } else if (k < 1 && touchX > headX) {
+        // 开始向右移动
+        this.direction = 1
+      }
+    } else {
+      // 斜率无穷大
+      if (touchY < headY) {
+        this.direction = 0
+      } else if (touchY > headY) {
+        this.direction = 2
+      }
+    }
   }
 
   draw () {
@@ -60,11 +105,9 @@ export default class GameCtrl {
     }
 
     // 判断是否吃到食物
-    const eaten: boolean = x === this.food.x && y === this.food.y
+    const eaten = x === this.food.x && y === this.food.y
     if (eaten) {
-      do {
-        this.food.change()
-      } while (this.snake.isOnSnake(this.food.x, this.food.y))
+      this.changeFood()
       this.panel.addScore()
     }
     this.snake.move(x, y, eaten)
@@ -76,6 +119,22 @@ export default class GameCtrl {
     } else {
       // 游戏结束
       alert('游戏结束！')
+      this.reset()
     }
+  }
+
+  changeFood () {
+    do {
+      this.food.change()
+    } while (this.snake.isOnSnake(this.food.x, this.food.y))
+  }
+
+  reset () {
+    this.snake.reset()
+    this.direction = -1
+    this.changeFood()
+    this.panel.setScore(0)
+    this.panel.setLevel(1)
+    this.draw()
   }
 }

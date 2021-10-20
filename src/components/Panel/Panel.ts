@@ -14,11 +14,21 @@ export default class Panel {
   }
 
   addScore () {
-    this.scoreEle.textContent = ++this.score + ''
+    this.setScore(this.score + 1)
     this.score % this.upScore === 0 && this.levelup()
   }
 
   levelup () {
-    this.level < this.maxLevel && (this.levelEle.textContent = ++this.level + '')
+    this.level < this.maxLevel && this.setLevel(this.level + 1)
+  }
+
+  setScore (value: number) {
+    this.score = value
+    this.scoreEle.textContent = value + ''
+  }
+
+  setLevel (value: number) {
+    this.level = value
+    this.levelEle.textContent = value + ''
   }
 }

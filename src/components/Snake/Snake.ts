@@ -9,8 +9,6 @@ export default class Snake {
     this.element = document.getElementById('snake')!
     this.head = document.querySelector('#snake > div')!
     this.headAndBody = this.element.getElementsByTagName('div')
-    this.x = Math.round(Math.random() * 29) * 10
-    this.y = Math.round(Math.random() * 29) * 10
   }
 
   get x () {
@@ -91,5 +89,13 @@ export default class Snake {
         return (ele as HTMLElement).offsetLeft === x && (ele as HTMLElement).offsetTop === y
       }
     })
+  }
+
+  reset () {
+    Array.from(this.headAndBody).filter(ele => ele !== this.head).forEach(ele => ele.remove())
+    this.isLive = true
+    this.bodyArr = []
+    this.x = Math.round(Math.random() * 29) * 10
+    this.y = Math.round(Math.random() * 29) * 10
   }
 }
